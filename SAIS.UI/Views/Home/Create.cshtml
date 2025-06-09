@@ -1,0 +1,321 @@
+﻿@model CreateApplicantViewModel;
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-2 text-gray-800">Application Form</h1>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+
+
+             
+                <div class="row">
+                    <h6 class="mb-2 text-gray-800">Applicant’s Details</h6>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Date</label>
+                        <input id="appdate" class="form-control form-control-sm rounded-0" type="date" asp-for="CreateApplicant.ApplicationDate">
+                        <span asp-validation-for="CreateApplicant.ApplicationDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">First Name</label>
+                        <input id="fname" class="form-control form-control-sm rounded-0" type="text" asp-for="CreateApplicant.FirstName">
+                        <span asp-validation-for="CreateApplicant.FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Middle Name</label>
+                        <input id="middlename" class="form-control form-control-sm rounded-0" type="text" asp-for="CreateApplicant.MiddleName">
+                        <span asp-validation-for="CreateApplicant.MiddleName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Last Name</label>
+                        <input id="lastname" class="form-control form-control-sm rounded-0" type="text" asp-for="CreateApplicant.LastName">
+                        <span asp-validation-for="CreateApplicant.LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">DOB</label>
+                        <input id="dob" class="form-control form-control-sm rounded-0" type="date" asp-for="CreateApplicant.DateOfBirth">
+                        <span asp-validation-for="CreateApplicant.DateOfBirth" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Gender</label>
+
+                        <select id="m_status" class="form-select form-select-sm rounded-0 select2" asp-for="CreateApplicant.GenderId"
+                                asp-items="@Model.GenderList">
+                            <option value="">Select</option>
+                        </select>
+                        <span asp-validation-for="CreateApplicant.GenderId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Maritual Status</label>
+
+                        <select id="m_status" class="form-select form-select-sm rounded-0 select2" asp-for="CreateApplicant.MaritalStatusId"
+                                asp-items="@Model.MaritualStatusList">
+                            <option value="">Select</option>
+                        </select>
+                        <span asp-validation-for="CreateApplicant.MaritalStatusId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">ID/Passport Number</label>
+                        <input id="idnumber" class="form-control form-control-sm rounded-0" type="text" asp-for="CreateApplicant.IDNumber">
+                        <span asp-validation-for="CreateApplicant.IDNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">County</label>
+                        <select id="countyid" onchange="GetRegions()" class="form-select form-select-sm rounded-0 select2" asp-for="CreateApplicant.CountyId"
+                                asp-items="@Model.CountyList">
+                            <option value="">Select</option>
+                        </select>
+
+                        <span asp-validation-for="CreateApplicant.CountyId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Sub-County</label>
+
+                        <select id="regions" asp-for="CreateApplicant.SubCountyId"
+                                class="form-select form-select-sm rounded-0 select2">
+                            <option value="">Select Sub County</option>
+                        </select>
+
+                        <input type="text" id="customSubCounty" asp-for="CreateApplicant.SubCountyId"
+                               style="display: none;" class="form-control form-control-sm rounded-0" placeholder="Enter Sub County" />
+
+                        <span asp-validation-for="CreateApplicant.SubCountyId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Location</label>
+                        <select id="locationid" class="form-select form-select-sm rounded-0 select2"
+                                onchange="GetSubLocations()" asp-for="CreateApplicant.LocationId">
+                            <option value="">Select Location</option>
+                        </select>
+                        <span asp-validation-for="CreateApplicant.LocationId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Sub-Location</label>
+                        <select id="sublocationid" class="form-select form-select-sm rounded-0 select2"
+                                onchange="GetVillages()" asp-for="CreateApplicant.SubLocationId">
+                            <option value="">Select Sub-Location</option>
+                        </select>
+                        <span asp-validation-for="CreateApplicant.SubLocationId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Village</label>
+                        <select id="villageid" class="form-select form-select-sm rounded-0 select2"
+                                asp-for="CreateApplicant.VillageId">
+                            <option value="">Select Village</option>
+                        </select>
+                        <span asp-validation-for="CreateApplicant.VillageId" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Postal Address</label>
+                        <input id="postaddress" class="form-control form-control-sm rounded-0" type="text" asp-for="CreateApplicant.PostalAddress">
+                        <span asp-validation-for="CreateApplicant.PostalAddress" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Physical Address</label>
+                        <input id="physicaladdress" class="form-control form-control-sm rounded-0" type="text" asp-for="CreateApplicant.PhysicalAddress">
+                        <span asp-validation-for="CreateApplicant.PhysicalAddress" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Telephone Numbers</label>
+                        <input type="text" class="form-control form-control-sm rounded-0" asp-for="PhoneNumbersRaw" placeholder="e.g. 0712345678, 0722123456">
+                        <span asp-validation-for="PhoneNumbersRaw" class="text-danger"></span>
+                    </div>
+
+
+                    <h6 class="mt-5 mb-2 text-gray-800">Social Assistance Programme applied for</h6>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Programs</label>
+                        <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                            @foreach (var program in Model.ProgrammeList)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="SelectedProgrammeIds"
+                                           value="@program.ProgrammeId"
+                                           id="program_@program.ProgrammeId"
+                                    @(Model.SelectedProgrammeIds?.Contains(program.ProgrammeId) == true ? "checked" : "") />
+                                    <label class="form-check-label" for="program_@program.ProgrammeId">
+                                        @program.Name
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+
+                    <h6 class="mt-5 mb-2 text-gray-800">Declaration</h6>
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 mx-3">
+                        <input class="form-check-input" type="checkbox" id="checkDefault" asp-for="CreateApplicant.DeclarationChecked" />
+
+                        <label class="form-check-label" for="checkDefault">
+                            I hereby declare that the information provided in this application is true to the best of my
+                            knowledge.
+                        </label>
+                    </div>
+
+
+                    <h6 class="mt-5 mb-2 fw-bold text-decoration-underline">FOR OFFICIAL USE ONLY</h6>
+
+                    <h6 class="mb-1 text-gray-800">Information collected by</h6>
+
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Name</label>
+                        <input id="officalsname" class="form-control form-control-sm rounded-0" type="text" asp-for="OfficialApproval.OfficerName">
+                        <span asp-validation-for="OfficialApproval.OfficerName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Designation</label>
+                        <input id="designation" class="form-control form-control-sm rounded-0" type="text" asp-for="OfficialApproval.Designation">
+                        <span asp-validation-for="OfficialApproval.Designation" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <label class="col-form-label-sm">Date</label>
+                        <input id="approvedate" class="form-control form-control-sm rounded-0" type="date" asp-for="OfficialApproval.InformationCollectedDate">
+                        <span asp-validation-for="OfficialApproval.InformationCollectedDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn  btn-primary">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+        function GetRegions() {
+            var countyId = document.getElementById("countyid").value;
+            const customInput = document.getElementById("customSubCounty");
+            const dropdown = document.getElementById("regions");
+
+            customInput.style.display = "none";
+            customInput.value = "";
+            dropdown.style.display = "block";
+            getRegions(countyId);
+        }
+
+        async function getRegions(countyId) {
+            const response = await fetch(`/home/getsubcounties?id=${countyId}`);
+            const data = await response.json();
+
+            const subCountyDropdown = document.getElementById("regions");
+            subCountyDropdown.innerHTML = '<option value="">Select Sub County</option>';
+            data.forEach(sc => {
+                const option = document.createElement("option");
+                option.value = sc.subCountyId;
+                option.text = sc.name;
+                subCountyDropdown.appendChild(option);
+            });
+
+            if (data.length > 0) {
+                subCountyDropdown.selectedIndex = 1;
+                getLocations(data[0].subCountyId);
+            }
+        }
+
+        document.getElementById("regions").addEventListener("change", function () {
+            const subCountyId = this.value;
+            getLocations(subCountyId);
+        });
+
+        async function getLocations(subCountyId) {
+            const response = await fetch(`/home/getlocations?id=${subCountyId}`);
+            const data = await response.json();
+
+            const locationDropdown = document.getElementById("locationid");
+            locationDropdown.innerHTML = '<option value="">Select Location</option>';
+            data.forEach(l => {
+                const option = document.createElement("option");
+                option.value = l.locationId;
+                option.text = l.name;
+                locationDropdown.appendChild(option);
+            });
+
+            if (data.length > 0) {
+                locationDropdown.selectedIndex = 1;
+                getSubLocations(data[0].locationId);
+            }
+        }
+
+        function GetSubLocations() {
+            const locationId = document.getElementById("locationid").value;
+            getSubLocations(locationId);
+        }
+
+        async function getSubLocations(locationId) {
+            const response = await fetch(`/home/getsublocations?id=${locationId}`);
+            const data = await response.json();
+
+            const subLocDropdown = document.getElementById("sublocationid");
+            subLocDropdown.innerHTML = '<option value="">Select Sub-Location</option>';
+            data.forEach(sl => {
+                const option = document.createElement("option");
+                option.value = sl.subLocationId;
+                option.text = sl.name;
+                subLocDropdown.appendChild(option);
+            });
+
+            if (data.length > 0) {
+                subLocDropdown.selectedIndex = 1;
+                getVillages(data[0].subLocationId);
+            }
+        }
+
+        function GetVillages() {
+            const subLocationId = document.getElementById("sublocationid").value;
+            getVillages(subLocationId);
+        }
+
+        async function getVillages(subLocationId) {
+            const response = await fetch(`/home/getvillages?id=${subLocationId}`);
+            const data = await response.json();
+
+            const villageDropdown = document.getElementById("villageid");
+            villageDropdown.innerHTML = '<option value="">Select Village</option>';
+            data.forEach(v => {
+                const option = document.createElement("option");
+                option.value = v.villageId;
+                option.text = v.name;
+                villageDropdown.appendChild(option);
+            });
+        }
+    </script>
+
+
+}

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<ProgrammeDto>
+@{
+    ViewData["Title"] = "Programs";
+}
+
+<div class="container-fluid">
+
+    <h1 class="h3 mb-2 text-gray-800">Program List</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+
+
+            <div>
+                <div class="text-right">
+                    <a href="@Url.Action("CreateProgram", "LooksUp")"
+                       class="btn btn-sm btn-primary waves-effect waves-light"
+                       data-bs-toggle="modal"
+                       data-bs-target="#regionModal"
+                       data-url="@Url.Action("CreateProgram", "LooksUp")">
+                        <i class="fa fa-file-text-o"></i> Create Program
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered align-middle" id="dataTable">
+                        <thead class="">
+                            <tr>
+                                <th scope="col" style="width: 5%;">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col" style="width: 20%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.Name</td>
+                                        <td>
+                                            <a href="@Url.Action("CreateProgram", "LooksUp")"
+                                               class="btn btn-sm btn-outline-primary me-1"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#regionModal"
+                                               data-url="@Url.Action("CreateProgram", "LooksUp")"
+                                               data-id="@item.ProgrammeId">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+
+                                            <a asp-action="DeleteProgram" asp-route-id="@item.ProgrammeId" class="btn btn-sm btn-outline-danger"
+                                               onclick="return confirm('Are you sure you want to delete this item?');">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    count++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="regionModal" tabindex="-1" aria-labelledby="regionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="regionModalContent">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).on('click', '[data-bs-toggle="modal"]', function (e) {
+            const url = $(this).data('url');
+            const target = $(this).data('bs-target');
+            const id = $(this).data('id'); // grab the custom data-id
+            const modalContent = $(target).find('.modal-content');
+
+            // Add the ID to the query string (if it exists)
+            const fullUrl = id ? `${url}?id=${id}` : url;
+
+            $.get(fullUrl, function (data) {
+                modalContent.html(data);
+                $.validator.unobtrusive.parse(modalContent.find('form'));
+            });
+        });
+    </script>
+
+
+}
