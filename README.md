@@ -19,8 +19,8 @@ This project is a Blazor Server application for digitizing a **Social Assistance
 ### 2. 📥 Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/social-assistance-app.git
-cd social-assistance-app
+git clone https://github.com/shimuli/SAIS.git
+cd SAIS
 ```
 
 ---
