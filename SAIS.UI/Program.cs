@@ -1,5 +1,6 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
+using SAIS.API.Extentions;
 using SAIS.Core.Domain.IRepository;
 using SAIS.Core.IServices;
 using SAIS.Core.Services;
@@ -37,6 +38,17 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
+
+// Register API Services
+builder.Services.AddApiServices(builder.Configuration);
+
 // Toast messages
 builder.Services.AddNotyf(config =>
 {
@@ -47,7 +59,44 @@ builder.Services.AddNotyf(config =>
     config.HasRippleEffect = true;
 });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "CorsApi",
+        builder =>
+        {
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(hostName => true);
+        });
+});
+
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Visitors");
+
+
+    });
+}
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Visitors");
+
+
+    });
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

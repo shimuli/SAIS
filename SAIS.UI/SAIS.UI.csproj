@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SAIS.API\SAIS.API.csproj" />
     <ProjectReference Include="..\SAIS.Infra\SAIS.Infra.csproj" />
   </ItemGroup>
 
