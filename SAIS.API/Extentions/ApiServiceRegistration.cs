@@ -13,7 +13,6 @@ public static class ApiServiceRegistration
     {
         services.AddControllers();
 
-        // ✅ Add Swagger with JWT support
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
@@ -30,7 +29,6 @@ public static class ApiServiceRegistration
                 }
             });
 
-            // ✅ Enable JWT authentication in Swagger
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
@@ -56,7 +54,6 @@ public static class ApiServiceRegistration
             });
         });
 
-        // ✅ Configure Authentication & JWT Bearer Token Validation
         var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!);
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -76,7 +73,6 @@ public static class ApiServiceRegistration
                 };
             });
 
-        // ✅ Add Authorization Policy
         services.AddAuthorization(options =>
         {
             options.AddPolicy("ApiPolicy", policy =>

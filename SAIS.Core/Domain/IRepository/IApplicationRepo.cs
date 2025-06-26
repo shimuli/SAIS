@@ -1,4 +1,5 @@
-﻿using SAIS.Core.Domain.Entities;
+﻿using SAIS.Core.Domain.DTO;
+using SAIS.Core.Domain.Entities;
 using SAIS.Core.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -15,4 +16,11 @@ public interface IApplicationRepo
     Task AddApplicationsAsync(CreateApplicantViewModel data);
     Task UpdateApplicationsAsync(CreateApplicantViewModel data);
     Task DeleteApplicationsAsync(int id);
+
+
+    Task<ApplicantsDto?> GetApplicantByIdAsync(int id);
+    Task<IEnumerable<ApplicantsDto>> GetApplicantsAsync();
+
+
+    Task RegisterApplicationsAsync(CreateApplicantVM data);
 }

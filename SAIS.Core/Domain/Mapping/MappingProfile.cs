@@ -20,5 +20,7 @@ public class MappingProfile : Profile
         CreateMap<Applicant, ApplicantsDto>().ReverseMap();
 
         CreateMap<Official, OfficialDto>().ReverseMap();
+
+        CreateMap<Applicant, CreateApplicantDto>().ReverseMap();
     }
 }

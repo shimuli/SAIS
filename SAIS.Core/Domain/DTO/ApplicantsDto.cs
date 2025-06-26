@@ -37,4 +37,72 @@ public class ApplicantsDto
     public bool DeclarationChecked { get; set; } = false;
 
     public string? DataEnteredBy { get; set; }
+
+    public ApplicantGenderDto? ApplicantGender { get; set; }
+    public ApplicantMaritalStatusDto? MaritalStatus { get; set; }
+    public List<ApplicantPhoneNumberDto>? PhoneNumbers { get; set; } = new();
+
+    public VillageDto? Village { get; set; }
+    public SubLocationDto? SubLocation { get; set; }
+
+    public LocationDto? Location { get; set; }
+
+    public SubCountyDto? SubCounty { get; set; } 
+
+    public CountyDto? County { get; set; } 
+}
+
+
+public class ApplicantGenderDto
+{
+    public int Id { get; set; }
+    public string? GenderName { get; set; } = string.Empty;
+}
+
+public class ApplicantMaritalStatusDto
+{
+    public int Id { get; set; }
+    public string? Name { get; set; } = string.Empty;
+}
+
+public class ApplicantPhoneNumberDto
+{
+    public int Id { get; set; }
+    public string Number { get; set; } = string.Empty;
+}
+
+
+public class VillageDto
+{
+    public int VillageId { get; set; }
+    public string Name { get; set; } = null!;
+    
+}
+
+
+public class SubLocationDto
+{
+    public int SubLocationId { get; set; }
+    public string Name { get; set; } = null!;
+}
+
+
+public class LocationDto
+{
+    public int LocationId { get; set; }
+    public string Name { get; set; } = null!;
+    public int SubCountyId { get; set; }
+}
+
+public class SubCountyDto
+{
+    public int SubCountyId { get; set; }
+    public string Name { get; set; } = null!;
+}
+
+
+public class CountyDto
+{
+    public int CountyId { get; set; }
+    public string Name { get; set; } = null!;
 }

@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SAIS.Core.Domain.DTO;
 using SAIS.Core.Domain.Entities;
 using SAIS.Core.Domain.IRepository;
+using SAIS.Core.ViewModel;
 using SAIS.Infra.DbContexts;
+using SAIS.Infra.Persistence.Data;
 
 namespace SAIS.API.Controllers;
 
@@ -16,7 +20,7 @@ public class RegisterController(IApplicationRepo _repo) : ControllerBase
     [HttpGet("GetApplications")]
     public async Task<IActionResult> GetApplications()
     {
-        IEnumerable<Applicant>? applicants = await _repo.GetApplicationsAsync();
+        IEnumerable<ApplicantsDto>? applicants = await _repo.GetApplicantsAsync();
         return Ok(applicants);
     }
 
@@ -24,17 +28,34 @@ public class RegisterController(IApplicationRepo _repo) : ControllerBase
     /// <summary>
     /// Get Applicant Details by ID
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">ApplicantId</param>
     /// <returns>Applicant Details</returns>
     [HttpGet("GetApplicantDetails")]
     public async Task<IActionResult> GetApplicantDetails(int id)
     {
-        var data = await _repo.GetApplicationAsync(id);
+        var data = await _repo.GetApplicantByIdAsync(id);
         if (data == null)
         {
             return NotFound(new { message = "Applicant was not found" });
         }
 
         return Ok(data);
+    }
+
+
+
+    [HttpPost("RegisterApplicant")]
+    public async Task<IActionResult> RegisterApplicant(CreateApplicantVM model)
+    {
+        try
+        {
+            await _repo.RegisterApplicationsAsync(model);
+            return Ok(new { message = "Application submitted successfully" });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+
     }
 }

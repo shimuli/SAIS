@@ -9,7 +9,6 @@ namespace SAIS.Core.Domain.DTO;
 
 public class OfficialDto
 {
-    public int OfficialId { get; set; }
     public string OfficerName { get; set; } = null!;
     public string Designation { get; set; } = null!;
     public string? Signature { get; set; }
